@@ -1,0 +1,24 @@
+rootProject.name = 'xBaseJ-annotations-processor'
+
+String[] p = []
+
+/*
+ * Dynamically locate loosely coupled project dependencies.
+ */
+p.each { s->
+	include (":"+s);
+	boolean found=false;
+	File f;
+	f = new File(settingsDir,"../"+s); //preferred is side-by-side
+	found = new File(f, "build.gradle").exists();
+	if (!found) {
+		throw new RuntimeException("=== MISSING PROJECT: '"+s+"'");
+	}
+	project(":"+s).projectDir=f
+	s=new File(f, "settings.gradle")
+	if (s.exists()) {
+		String tmp = rootProject.name
+		apply from: s
+		rootProject.name = tmp
+	}
+}

@@ -1,14 +1,28 @@
-.gradle
-/build/
-
-# Ignore Gradle GUI config
-gradle-app.setting
-
-# Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
-!gradle-wrapper.jar
-
-# Cache of project
-.gradletasknamecache
-
-# # Work around https://youtrack.jetbrains.com/issue/IDEA-116898
-# gradle/wrapper/gradle-wrapper.properties
+*.bak
+bin/
+build/
+.buildpath
+.classpath
+.cproject
+.DS_Store
+.externalToolBuilders/
+.gradle/
+/gradle-app.setting
+*.launch
+.loadpath
+local.properties
+.metadata
+*~.nib
+.project
+*.pydevproject
+.settings/
+*.swp
+.target
+.texlipse
+/tmp/
+*.tmp
+war/
+war.old/
+replay_pid*.log
+hs_err_pid*.log
+/doc/
