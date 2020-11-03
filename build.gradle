@@ -28,6 +28,7 @@ repositories {
 
 dependencies {
 	implementation 'com.github.NewsRxTech:xBaseJ:20201027.03'
+	implementation 'com.github.NewsRxTech:xBaseJ-annotations:20201103.01' 
     implementation 'com.google.auto.service:auto-service:1.0-rc7'
     annotationProcessor 'com.google.auto.service:auto-service:1.0-rc7'
 }
