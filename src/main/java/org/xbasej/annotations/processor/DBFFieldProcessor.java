@@ -144,7 +144,21 @@ public class DBFFieldProcessor extends AbstractProcessor {
 				String fieldName = element.getSimpleName().toString();
 				String fieldType = element.asType().toString();
 				out.println(" // " + fieldType);
-				if (fieldType.endsWith("DateField")) {
+				if (fieldType.endsWith("CurrencyField")) {
+					out.println(" public java.math.BigDecimal get" + methodSubname(fieldName) + "() {");
+					out.println("  if (this." + fieldName + "==null) return null;");
+					out.println("  try { return this." + fieldName + ".getBigDecimal();");
+					out.println(" }");
+					out.println();
+					out.println(" public void set" + methodSubname(fieldName)
+							+ "(java.math.BigDecimal value) throws org.xBaseJ.xBaseJException {");
+					out.println("  if (this." + fieldName + "==null) return;");
+					out.println("  if (value==null) { this." + fieldName + ".put(\"\"); }");
+					out.println("  else {");
+					out.println("   this." + fieldName
+							+ ".put(value);}");
+					out.println(" }");					
+				} else if (fieldType.endsWith("DateField")) {
 					out.println(" public java.time.LocalDate get" + methodSubname(fieldName) + "() {");
 					out.println("  if (this." + fieldName + "==null) return null;");
 					out.println("  try { return java.time.LocalDate.parse(this." + fieldName
