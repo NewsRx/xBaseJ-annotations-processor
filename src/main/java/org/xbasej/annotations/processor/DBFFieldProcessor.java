@@ -144,7 +144,47 @@ public class DBFFieldProcessor extends AbstractProcessor {
 				String fieldName = element.getSimpleName().toString();
 				String fieldType = element.asType().toString();
 				out.println(" // " + fieldType);
-				if (fieldType.endsWith("CurrencyField")) {
+				if (fieldType.endsWith("PictureField")) {
+					out.println(" public byte[] get" + methodSubname(fieldName) + "() {");
+					out.println("  if (this." + fieldName + "==null) return null;");
+					out.println("  try { return this." + fieldName + ".getBytes();");
+					out.println(" }");
+					out.println();
+					out.println(" public void set" + methodSubname(fieldName)
+							+ "(byte[] value) throws org.xBaseJ.xBaseJException {");
+					out.println("  if (this." + fieldName + "==null) return;");
+					out.println("   this." + fieldName + ".put(value);");
+					out.println(" }");					
+				} else if (fieldType.endsWith("LogicalField")) {
+					out.println(" public java.lang.Boolean get" + methodSubname(fieldName) + "() {");
+					out.println("  if (this." + fieldName + "==null) return null;");
+					out.println("  if (this." + fieldName + ".get().trim().isEmpty()) return null;");
+					out.println("  try { return this." + fieldName + ".getBoolean();");
+					out.println(" }");
+					out.println();
+					out.println(" public void set" + methodSubname(fieldName)
+							+ "(java.lang.Boolean value) throws org.xBaseJ.xBaseJException {");
+					out.println("  if (this." + fieldName + "==null) return;");
+					out.println("  if (value==null) { this." + fieldName + ".put(\"\"); }");
+					out.println("  else {");
+					out.println("   this." + fieldName
+							+ ".put(value);}");
+					out.println(" }");					
+				} else if (fieldType.endsWith("FloatField")) {
+					out.println(" public java.lang.Double get" + methodSubname(fieldName) + "() {");
+					out.println("  if (this." + fieldName + "==null) return null;");
+					out.println("  try { return this." + fieldName + ".getDouble();");
+					out.println(" }");
+					out.println();
+					out.println(" public void set" + methodSubname(fieldName)
+							+ "(java.lang.Double value) throws org.xBaseJ.xBaseJException {");
+					out.println("  if (this." + fieldName + "==null) return;");
+					out.println("  if (value==null) { this." + fieldName + ".put(\"\"); }");
+					out.println("  else {");
+					out.println("   this." + fieldName
+							+ ".put(value);}");
+					out.println(" }");					
+				} else if (fieldType.endsWith("CurrencyField")) {
 					out.println(" public java.math.BigDecimal get" + methodSubname(fieldName) + "() {");
 					out.println("  if (this." + fieldName + "==null) return null;");
 					out.println("  try { return this." + fieldName + ".getBigDecimal();");
