@@ -147,7 +147,7 @@ public class DBFFieldProcessor extends AbstractProcessor {
 				if (fieldType.endsWith("PictureField")) {
 					out.println(" public byte[] get" + methodSubname(fieldName) + "() {");
 					out.println("  if (this." + fieldName + "==null) return null;");
-					out.println("  try { return this." + fieldName + ".getBytes();");
+					out.println("  return this." + fieldName + ".getBytes();");
 					out.println(" }");
 					out.println();
 					out.println(" public void set" + methodSubname(fieldName)
@@ -159,7 +159,7 @@ public class DBFFieldProcessor extends AbstractProcessor {
 					out.println(" public java.lang.Boolean get" + methodSubname(fieldName) + "() {");
 					out.println("  if (this." + fieldName + "==null) return null;");
 					out.println("  if (this." + fieldName + ".get().trim().isEmpty()) return null;");
-					out.println("  try { return this." + fieldName + ".getBoolean();");
+					out.println("  return this." + fieldName + ".getBoolean();");
 					out.println(" }");
 					out.println();
 					out.println(" public void set" + methodSubname(fieldName)
@@ -173,7 +173,7 @@ public class DBFFieldProcessor extends AbstractProcessor {
 				} else if (fieldType.endsWith("FloatField")) {
 					out.println(" public java.lang.Double get" + methodSubname(fieldName) + "() {");
 					out.println("  if (this." + fieldName + "==null) return null;");
-					out.println("  try { return this." + fieldName + ".getDouble();");
+					out.println(" return this." + fieldName + ".getDouble();");
 					out.println(" }");
 					out.println();
 					out.println(" public void set" + methodSubname(fieldName)
@@ -187,7 +187,7 @@ public class DBFFieldProcessor extends AbstractProcessor {
 				} else if (fieldType.endsWith("CurrencyField")) {
 					out.println(" public java.math.BigDecimal get" + methodSubname(fieldName) + "() {");
 					out.println("  if (this." + fieldName + "==null) return null;");
-					out.println("  try { return this." + fieldName + ".getBigDecimal();");
+					out.println("  return this." + fieldName + ".getBigDecimal();");
 					out.println(" }");
 					out.println();
 					out.println(" public void set" + methodSubname(fieldName)
@@ -292,6 +292,21 @@ public class DBFFieldProcessor extends AbstractProcessor {
 				String fieldName = element.getSimpleName().toString();
 				String fieldType = element.asType().toString();
 				DBFField a = element.getAnnotation(DBFField.class);
+				if (fieldType.endsWith("MemoField")) {
+					out.println("  set" + methodSubname(fieldName) + "(null);");
+				} else
+				if (fieldType.endsWith("PictureField")) {
+					out.println("  set" + methodSubname(fieldName) + "(null);");
+				} else
+				if (fieldType.endsWith("LogicalField")) {
+					out.println("  set" + methodSubname(fieldName) + "(null);");
+				} else
+				if (fieldType.endsWith("FloatField")) {
+					out.println("  set" + methodSubname(fieldName) + "(null);");
+				} else
+				if (fieldType.endsWith("CurrencyField")) {
+					out.println("  set" + methodSubname(fieldName) + "(null);");
+				} else
 				if (fieldType.endsWith("DateField")) {
 					out.println("  set" + methodSubname(fieldName) + "(null);");
 				} else if (fieldType.endsWith("NumField") && a.dec() == 0 && a.size() < 19) {
