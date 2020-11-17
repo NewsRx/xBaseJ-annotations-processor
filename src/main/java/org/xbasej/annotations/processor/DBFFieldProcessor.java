@@ -373,7 +373,7 @@ public class DBFFieldProcessor extends AbstractProcessor {
 			for (Element element : elements) {
 				String fieldName = element.getSimpleName().toString();
 				out.println("  if (this." + fieldName + "==null) {\n"
-						+ "    throw java.lang.IllegalStateException(\"Field add to DBF failure: " //
+						+ "    throw new java.lang.IllegalStateException(\"Field add to DBF failure: " //
 						+ fieldName //
 						+ "\");}\n");
 			}
