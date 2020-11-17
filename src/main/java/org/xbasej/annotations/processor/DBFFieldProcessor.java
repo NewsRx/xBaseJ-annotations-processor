@@ -352,19 +352,34 @@ public class DBFFieldProcessor extends AbstractProcessor {
 					out.println("  if (" + fieldName + "==null) {" + fieldName //
 							+ "=new " + fieldType + "(\"" + dbfFieldName + "\"," + size + "); list.add(" + fieldName
 							+ ");}");
-				}
+				} else
 				if (fieldType.endsWith("DateField")) {
 					out.println("  if (" + fieldName + "==null) {" + fieldName //
 							+ "=new " + fieldType + "(\"" + dbfFieldName + "\"); list.add(" + fieldName + ");}");
-				}
+				} else
+				if (fieldType.endsWith("FloatField")) {
+					out.println("  if (" + fieldName + "==null) {" + fieldName //
+							+ "=new " + fieldType + "(\"" + dbfFieldName + "\"," + size + "," + dec + "); list.add("
+							+ fieldName + ");}");
+				} else
+				if (fieldType.endsWith("LogicalField")) {
+					out.println("  if (" + fieldName + "==null) {" + fieldName //
+							+ "=new " + fieldType + "(\"" + dbfFieldName + "\"); list.add(" + fieldName + ");}");
+				} else
 				if (fieldType.endsWith("MemoField")) {
 					out.println("  if (" + fieldName + "==null) {" + fieldName //
 							+ "=new " + fieldType + "(\"" + dbfFieldName + "\"); list.add(" + fieldName + ");}");
-				}
+				} else
 				if (fieldType.endsWith("NumField")) {
 					out.println("  if (" + fieldName + "==null) {" + fieldName //
 							+ "=new " + fieldType + "(\"" + dbfFieldName + "\"," + size + "," + dec + "); list.add("
 							+ fieldName + ");}");
+				} else
+				if (fieldType.endsWith("PictureField")) {
+					out.println("  if (" + fieldName + "==null) {" + fieldName //
+							+ "=new " + fieldType + "(\"" + dbfFieldName + "\"); list.add(" + fieldName + ");}");
+				} else {
+					System.err.println("=== UNKNOWN FIELD TYPE: "+fieldType);
 				}
 			}
 			out.println();
