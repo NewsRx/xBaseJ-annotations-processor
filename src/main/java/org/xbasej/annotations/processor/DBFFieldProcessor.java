@@ -75,7 +75,13 @@ public class DBFFieldProcessor extends AbstractProcessor {
 	private void generateDbfCode(final String className, List<Element> elements, String packageName, int lastDot)
 			throws IOException {
 		String dbfRecordClassName;
-		if (className.endsWith("DBFFieldSet")) {
+		if (className.toLowerCase().endsWith("dbfstruct")) {
+			dbfRecordClassName = className.substring(0, className.length() - "dbfstruct".length());
+		} else if (className.toLowerCase().endsWith("struct")) {
+			dbfRecordClassName = className.substring(0, className.length() - "dbfstruct".length());
+		} else if (className.toLowerCase().endsWith("dbf")) {
+			dbfRecordClassName = className.substring(0, className.length() - "dbfstruct".length());
+		} else if (className.endsWith("DBFFieldSet")) {
 			dbfRecordClassName = className.substring(0, className.lastIndexOf("DBFFieldSet")) + "DBFRecord";
 		} else {
 			dbfRecordClassName = className + "DBFRecord";
@@ -154,7 +160,7 @@ public class DBFFieldProcessor extends AbstractProcessor {
 							+ "(byte[] value) throws org.xBaseJ.xBaseJException {");
 					out.println("  if (this." + fieldName + "==null) return;");
 					out.println("   this." + fieldName + ".put(value);");
-					out.println(" }");					
+					out.println(" }");
 				} else if (fieldType.endsWith("LogicalField")) {
 					out.println(" public java.lang.Boolean get" + methodSubname(fieldName) + "() {");
 					out.println("  if (this." + fieldName + "==null) return null;");
@@ -167,9 +173,8 @@ public class DBFFieldProcessor extends AbstractProcessor {
 					out.println("  if (this." + fieldName + "==null) return;");
 					out.println("  if (value==null) { this." + fieldName + ".put(\"\"); }");
 					out.println("  else {");
-					out.println("   this." + fieldName
-							+ ".put(value);}");
-					out.println(" }");					
+					out.println("   this." + fieldName + ".put(value);}");
+					out.println(" }");
 				} else if (fieldType.endsWith("FloatField")) {
 					out.println(" public java.lang.Double get" + methodSubname(fieldName) + "() {");
 					out.println("  if (this." + fieldName + "==null) return null;");
@@ -181,9 +186,8 @@ public class DBFFieldProcessor extends AbstractProcessor {
 					out.println("  if (this." + fieldName + "==null) return;");
 					out.println("  if (value==null) { this." + fieldName + ".put(\"\"); }");
 					out.println("  else {");
-					out.println("   this." + fieldName
-							+ ".put(value);}");
-					out.println(" }");					
+					out.println("   this." + fieldName + ".put(value);}");
+					out.println(" }");
 				} else if (fieldType.endsWith("CurrencyField")) {
 					out.println(" public java.math.BigDecimal get" + methodSubname(fieldName) + "() {");
 					out.println("  if (this." + fieldName + "==null) return null;");
@@ -195,9 +199,8 @@ public class DBFFieldProcessor extends AbstractProcessor {
 					out.println("  if (this." + fieldName + "==null) return;");
 					out.println("  if (value==null) { this." + fieldName + ".put(\"\"); }");
 					out.println("  else {");
-					out.println("   this." + fieldName
-							+ ".put(value);}");
-					out.println(" }");					
+					out.println("   this." + fieldName + ".put(value);}");
+					out.println(" }");
 				} else if (fieldType.endsWith("DateField")) {
 					out.println(" public java.time.LocalDate get" + methodSubname(fieldName) + "() {");
 					out.println("  if (this." + fieldName + "==null) return null;");
@@ -294,20 +297,15 @@ public class DBFFieldProcessor extends AbstractProcessor {
 				DBFField a = element.getAnnotation(DBFField.class);
 				if (fieldType.endsWith("MemoField")) {
 					out.println("  set" + methodSubname(fieldName) + "(null);");
-				} else
-				if (fieldType.endsWith("PictureField")) {
+				} else if (fieldType.endsWith("PictureField")) {
 					out.println("  set" + methodSubname(fieldName) + "(null);");
-				} else
-				if (fieldType.endsWith("LogicalField")) {
+				} else if (fieldType.endsWith("LogicalField")) {
 					out.println("  set" + methodSubname(fieldName) + "(null);");
-				} else
-				if (fieldType.endsWith("FloatField")) {
+				} else if (fieldType.endsWith("FloatField")) {
 					out.println("  set" + methodSubname(fieldName) + "(null);");
-				} else
-				if (fieldType.endsWith("CurrencyField")) {
+				} else if (fieldType.endsWith("CurrencyField")) {
 					out.println("  set" + methodSubname(fieldName) + "(null);");
-				} else
-				if (fieldType.endsWith("DateField")) {
+				} else if (fieldType.endsWith("DateField")) {
 					out.println("  set" + methodSubname(fieldName) + "(null);");
 				} else if (fieldType.endsWith("NumField") && a.dec() == 0 && a.size() < 19) {
 					out.println("  set" + methodSubname(fieldName) + "(0);");
@@ -337,7 +335,7 @@ public class DBFFieldProcessor extends AbstractProcessor {
 
 			out.println(
 					" public void addFieldsTo(org.xBaseJ.DBF dbf) throws java.io.IOException, org.xBaseJ.xBaseJException {");
-			out.println(" attach(dbf);");
+			out.println("  attach(dbf); //attach already existing fields");
 			out.println("  java.util.List<org.xBaseJ.fields.Field> list = new java.util.ArrayList<>();");
 
 			for (Element element : elements) {
@@ -371,7 +369,14 @@ public class DBFFieldProcessor extends AbstractProcessor {
 			}
 			out.println();
 			out.println("  if (!list.isEmpty()) _dbf.addFields(list);");
-
+			out.println("  attach(dbf); //make sure fields are really attached");
+			for (Element element : elements) {
+				String fieldName = element.getSimpleName().toString();
+				out.println("  if (this." + fieldName + "==null) {\n"
+						+ "    throw java.lang.IllegalStateException(\"Field add to DBF failure: \"" //
+						+ fieldName //
+						+ "\");}\n");
+			}
 			out.println(" }");
 
 			out.println(" public void append(" + dbfRecordSimpleClassName + " data) ");
