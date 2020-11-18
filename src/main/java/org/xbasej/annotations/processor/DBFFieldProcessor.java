@@ -243,7 +243,7 @@ public class DBFFieldProcessor extends AbstractProcessor {
 					out.println(" }");
 					// "".stripTrailing()
 				} else if (fieldType.endsWith("CharField")) {
-					out.println("// rtrim=" + a.rtrim() + ", ltrim=" + a.ltrim());
+					out.println("/** rtrim=" + a.rtrim() + ", ltrim=" + a.ltrim()+" */");
 					out.println(" public String get" + methodSubname(fieldName) + "() {");
 					out.println("  if (this." + fieldName + "==null) return \"\";");
 					if (a.rtrim() && a.ltrim()) {
@@ -257,9 +257,20 @@ public class DBFFieldProcessor extends AbstractProcessor {
 					}
 					out.println(" }");
 					out.println();
+					out.println("/** truncate=" + a.truncate()+" */");
 					out.println(" public void set" + methodSubname(fieldName)
 							+ "(String value) throws org.xBaseJ.xBaseJException {");
 					out.println("  if (this." + fieldName + "==null) return;");
+					if (a.truncate()) {
+						out.println();
+						out.println("  if (value!=null && this." + fieldName + ".getMapper()!=null) {");
+						out.println("    value=this."+fieldName+".getMapper().map(value);");
+						out.println("    if (value.length()>"+a.size()+") {");
+						out.println("      value = value.substring(0,"+a.size()+");");
+						out.println("    }");
+						out.println(" }");
+						out.println();
+					}
 					out.println("  this." + fieldName + ".put(value);");
 					out.println(" }");
 					// "".stripTrailing()
