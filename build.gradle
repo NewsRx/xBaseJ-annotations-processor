@@ -9,7 +9,7 @@ apply plugin: 'java-library'
 apply plugin: 'eclipse-wtp'
 
 group "com.newsrx"
-version = '20201103.01'
+version = '20210426.01'
 
 sourceCompatibility = JavaVersion.VERSION_11
 targetCompatibility = JavaVersion.VERSION_11

@@ -34,7 +34,6 @@ public class DBFFieldProcessor extends AbstractProcessor {
 		if (annotations.isEmpty()) {
 			return false;
 		}
-		System.out.println("=== DBF Field Processor");
 		Map<Element, List<Element>> annotatedElements = new HashMap<>();
 		for (TypeElement annotation : annotations) {
 			for (Element e : roundEnv.getElementsAnnotatedWith(annotation)) {
@@ -46,12 +45,12 @@ public class DBFFieldProcessor extends AbstractProcessor {
 			}
 		}
 		for (Element parent : annotatedElements.keySet()) {
-			for (Element field : annotatedElements.get(parent)) {
-				System.out.println("--- " + field.getSimpleName() + " " + field.asType().toString() + " "
-						+ parent.asType().toString());
-			}
+//			for (Element field : annotatedElements.get(parent)) {
+//				System.out.println("--- " + field.getSimpleName() + " " + field.asType().toString() + " "
+//						+ parent.asType().toString());
+//			}
 			String className = parent.asType().toString();
-			System.out.println("Enclosing Class Name: " + className);
+//			System.out.println("Enclosing Class Name: " + className);
 			try {
 				writeImplFile(className, annotatedElements.get(parent));
 			} catch (IOException e) {
