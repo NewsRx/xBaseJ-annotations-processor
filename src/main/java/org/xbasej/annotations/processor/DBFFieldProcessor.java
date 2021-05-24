@@ -3,10 +3,10 @@ package org.xbasej.annotations.processor;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeMap;
 
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.Filer;
@@ -34,7 +34,7 @@ public class DBFFieldProcessor extends AbstractProcessor {
 		if (annotations.isEmpty()) {
 			return false;
 		}
-		Map<Element, List<Element>> annotatedElements = new TreeMap<>();
+		Map<Element, List<Element>> annotatedElements = new LinkedHashMap<>();
 		for (TypeElement annotation : annotations) {
 			for (Element e : roundEnv.getElementsAnnotatedWith(annotation)) {
 				Element parent = e.getEnclosingElement();
