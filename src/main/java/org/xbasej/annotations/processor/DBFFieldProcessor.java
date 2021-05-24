@@ -3,10 +3,10 @@ package org.xbasej.annotations.processor;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.Filer;
@@ -34,7 +34,7 @@ public class DBFFieldProcessor extends AbstractProcessor {
 		if (annotations.isEmpty()) {
 			return false;
 		}
-		Map<Element, List<Element>> annotatedElements = new HashMap<>();
+		Map<Element, List<Element>> annotatedElements = new TreeMap<>();
 		for (TypeElement annotation : annotations) {
 			for (Element e : roundEnv.getElementsAnnotatedWith(annotation)) {
 				Element parent = e.getEnclosingElement();
@@ -45,12 +45,7 @@ public class DBFFieldProcessor extends AbstractProcessor {
 			}
 		}
 		for (Element parent : annotatedElements.keySet()) {
-//			for (Element field : annotatedElements.get(parent)) {
-//				System.out.println("--- " + field.getSimpleName() + " " + field.asType().toString() + " "
-//						+ parent.asType().toString());
-//			}
 			String className = parent.asType().toString();
-//			System.out.println("Enclosing Class Name: " + className);
 			try {
 				writeImplFile(className, annotatedElements.get(parent));
 			} catch (IOException e) {
@@ -77,11 +72,11 @@ public class DBFFieldProcessor extends AbstractProcessor {
 		if (className.toLowerCase().endsWith("dbfstruct")) {
 			dbfRecordClassName = className.substring(0, className.length() - "dbfstruct".length());
 		} else if (className.toLowerCase().endsWith("struct")) {
-			dbfRecordClassName = className.substring(0, className.length() - "dbfstruct".length());
+			dbfRecordClassName = className.substring(0, className.length() - "struct".length());
 		} else if (className.toLowerCase().endsWith("dbf")) {
-			dbfRecordClassName = className.substring(0, className.length() - "dbfstruct".length());
-		} else if (className.endsWith("DBFFieldSet")) {
-			dbfRecordClassName = className.substring(0, className.lastIndexOf("DBFFieldSet")) + "DBFRecord";
+			dbfRecordClassName = className.substring(0, className.length() - "dbf".length());
+		} else if (className.toLowerCase().endsWith("dbffieldset")) {
+			dbfRecordClassName = className.substring(0, className.length() - "dbffieldset".length());
 		} else {
 			dbfRecordClassName = className + "DBFRecord";
 		}
@@ -108,9 +103,16 @@ public class DBFFieldProcessor extends AbstractProcessor {
 			out.println(" private org.xBaseJ.DBF _dbf;");
 			out.println();
 			out.println(" public " + dbfRecordSimpleClassName + "(org.xBaseJ.DBF dbf) {");
-			out.println("  if (dbf!=null) attach(dbf);");
+			out.println("  this(dbf, false);");
 			out.println(" }");
 			out.println();
+			
+			out.println(" public " + dbfRecordSimpleClassName + "(org.xBaseJ.DBF dbf, boolean attachOnly) {");
+			out.println("  if (dbf!=null && attachOnly) attach(dbf);");
+			out.println("  if (dbf!=null && !attachOnly) addFields(dbf);");
+			out.println(" }");
+			out.println();
+			
 			out.println(" public " + dbfRecordSimpleClassName + "() {");
 			out.println("  this(null);");
 			out.println(" }");
