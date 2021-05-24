@@ -102,14 +102,14 @@ public class DBFFieldProcessor extends AbstractProcessor {
 
 			out.println(" private org.xBaseJ.DBF _dbf;");
 			out.println();
-			out.println(" public " + dbfRecordSimpleClassName + "(org.xBaseJ.DBF dbf) throws IOException, xBaseJException {");
+			out.println(" public " + dbfRecordSimpleClassName + "(org.xBaseJ.DBF dbf) throws java.io.IOException, org.xBaseJ.xBaseJException {");
 			out.println("  this(dbf, false);");
 			out.println(" }");
 			out.println();
 			
-			out.println(" public " + dbfRecordSimpleClassName + "(org.xBaseJ.DBF dbf, boolean attachOnly) throws IOException, xBaseJException {");
+			out.println(" public " + dbfRecordSimpleClassName + "(org.xBaseJ.DBF dbf, boolean attachOnly) throws java.io.IOException, org.xBaseJ.xBaseJException {");
 			out.println("  if (dbf!=null && attachOnly) attach(dbf);");
-			out.println("  if (dbf!=null && !attachOnly) addFields(dbf);");
+			out.println("  if (dbf!=null && !attachOnly) addFieldsTo(dbf);");
 			out.println(" }");
 			out.println();
 			
