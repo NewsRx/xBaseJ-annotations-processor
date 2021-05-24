@@ -7,6 +7,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.Filer;
@@ -66,8 +67,14 @@ public class DBFFieldProcessor extends AbstractProcessor {
 		generateDbfCode(className, elements, packageName, lastDot);
 	}
 
-	private void generateDbfCode(final String className, List<Element> elements, String packageName, int lastDot)
+	private void generateDbfCode(final String className, List<Element> _elements, String packageName, int lastDot)
 			throws IOException {
+		Set<Element> elements = new TreeSet<>((a,b)->{
+			DBFField fieldA = a.getAnnotation(DBFField.class);
+			DBFField fieldB = b.getAnnotation(DBFField.class);
+			return fieldA.name().compareToIgnoreCase(fieldB.name());
+		});
+		elements.addAll(_elements);
 		String dbfRecordClassName;
 		if (className.toLowerCase().endsWith("dbfstruct")) {
 			dbfRecordClassName = className.substring(0, className.length() - "dbfstruct".length());
