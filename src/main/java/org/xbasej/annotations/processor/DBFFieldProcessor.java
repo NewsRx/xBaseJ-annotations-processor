@@ -140,7 +140,12 @@ public class DBFFieldProcessor extends AbstractProcessor {
 				DBFField a = element.getAnnotation(DBFField.class);
 				final String dbfFieldName = a.name().toUpperCase();
 				if (!dbfFieldName.matches("(?i)^[a-z_][a-z_0-9]*$")) {
-					this.processingEnv.getMessager().printMessage(Kind.ERROR, "Invalid field name: " + a.toString(),
+					this.processingEnv.getMessager().printMessage(Kind.ERROR, "DBF field name invalid: " + a.toString(),
+							element);
+					return;
+				}
+				if (dbfFieldName.length()>10) {
+					this.processingEnv.getMessager().printMessage(Kind.ERROR, "DBF field name too long: " + a.toString()+" "+dbfFieldName.length()+" > 10",
 							element);
 					return;
 				}
