@@ -26,3 +26,6 @@ war.old/
 replay_pid*.log
 hs_err_pid*.log
 /doc/
+/.apt_generated/
+/.apt_generated_tests/
+.factorypath
