@@ -485,8 +485,15 @@ public class DBFFieldProcessor extends AbstractProcessor {
 		}
 	}
 
-	private static String methodSubname(String fieldName) {
-		return fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1).toLowerCase();
+	private static String methodSubname(final String fieldName) {
+		String newFieldName = fieldName;
+		while (newFieldName.contains("_") && newFieldName.length()>=2) {
+			int idx = newFieldName.indexOf("_");
+			String tmp1 = newFieldName.substring(idx+1, idx+2);
+			String tmp2 = newFieldName.substring(idx+2).toUpperCase();
+			newFieldName = newFieldName.substring(0,  idx) + tmp2 + tmp1;
+		}
+		return newFieldName.substring(0, 1).toUpperCase() + newFieldName.substring(1);
 	}
 
 }
