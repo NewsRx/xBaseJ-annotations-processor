@@ -163,27 +163,27 @@ public class DBFFieldProcessor extends AbstractProcessor {
 				String fieldName = element.getSimpleName().toString();
 				String fieldType = element.asType().toString();
 				if (fieldType.endsWith("PictureField")) {
-					out.println(" /** " + fieldName + " (" + fieldType + ") */");
+					out.println(" /** " + a.name() + " (" + fieldType + ") */");
 					out.println(" public byte[] get" + methodSubname(fieldName) + "() {");
 					out.println("  if (this." + fieldName + "==null) return null;");
 					out.println("  return this." + fieldName + ".getBytes();");
 					out.println(" }");
 					out.println();
-					out.println(" /** " + fieldName + " (" + fieldType + ") */");
+					out.println(" /** " + a.name() + " (" + fieldType + ") */");
 					out.println(" public void set" + methodSubname(fieldName)
 							+ "(byte[] value) throws org.xBaseJ.xBaseJException {");
 					out.println("  if (this." + fieldName + "==null) return;");
 					out.println("   this." + fieldName + ".put(value);");
 					out.println(" }");
 				} else if (fieldType.endsWith("LogicalField")) {
-					out.println(" /** " + fieldName + " (" + fieldType + ") */");
+					out.println(" /** " + a.name() + " (" + fieldType + ") */");
 					out.println(" public java.lang.Boolean get" + methodSubname(fieldName) + "() {");
 					out.println("  if (this." + fieldName + "==null) return null;");
 					out.println("  if (this." + fieldName + ".get().trim().isEmpty()) return null;");
 					out.println("  return this." + fieldName + ".getBoolean();");
 					out.println(" }");
 					out.println();
-					out.println(" /** " + fieldName + " (" + fieldType + ") */");
+					out.println(" /** " + a.name() + " (" + fieldType + ") */");
 					out.println(" public void set" + methodSubname(fieldName)
 							+ "(java.lang.Boolean value) throws org.xBaseJ.xBaseJException {");
 					out.println("  if (this." + fieldName + "==null) return;");
@@ -192,13 +192,13 @@ public class DBFFieldProcessor extends AbstractProcessor {
 					out.println("   this." + fieldName + ".put(value);}");
 					out.println(" }");
 				} else if (fieldType.endsWith("FloatField")) {
-					out.println(" /** " + fieldName + " (" + fieldType + ") */");
+					out.println(" /** " + a.name() + " (" + fieldType + ") */");
 					out.println(" public java.lang.Double get" + methodSubname(fieldName) + "() {");
 					out.println("  if (this." + fieldName + "==null) return null;");
 					out.println(" return this." + fieldName + ".getDouble();");
 					out.println(" }");
 					out.println();
-					out.println(" /** " + fieldName + " (" + fieldType + ") */");
+					out.println(" /** " + a.name() + " (" + fieldType + ") */");
 					out.println(" public void set" + methodSubname(fieldName)
 							+ "(java.lang.Double value) throws org.xBaseJ.xBaseJException {");
 					out.println("  if (this." + fieldName + "==null) return;");
@@ -207,13 +207,13 @@ public class DBFFieldProcessor extends AbstractProcessor {
 					out.println("   this." + fieldName + ".put(value);}");
 					out.println(" }");
 				} else if (fieldType.endsWith("CurrencyField")) {
-					out.println(" /** " + fieldName + " (" + fieldType + ") */");
+					out.println(" /** " + a.name() + " (" + fieldType + ") */");
 					out.println(" public java.math.BigDecimal get" + methodSubname(fieldName) + "() {");
 					out.println("  if (this." + fieldName + "==null) return null;");
 					out.println("  return this." + fieldName + ".getBigDecimal();");
 					out.println(" }");
 					out.println();
-					out.println(" /** " + fieldName + " (" + fieldType + ") */");
+					out.println(" /** " + a.name() + " (" + fieldType + ") */");
 					out.println(" public void set" + methodSubname(fieldName)
 							+ "(java.math.BigDecimal value) throws org.xBaseJ.xBaseJException {");
 					out.println("  if (this." + fieldName + "==null) return;");
@@ -222,7 +222,7 @@ public class DBFFieldProcessor extends AbstractProcessor {
 					out.println("   this." + fieldName + ".put(value);}");
 					out.println(" }");
 				} else if (fieldType.endsWith("DateField")) {
-					out.println(" /** " + fieldName + " (" + fieldType + ") */");
+					out.println(" /** " + a.name() + " (" + fieldType + ") */");
 					out.println(" public java.time.LocalDate get" + methodSubname(fieldName) + "() {");
 					out.println("  if (this." + fieldName + "==null) return null;");
 					out.println("  try { return java.time.LocalDate.parse(this." + fieldName
@@ -230,7 +230,7 @@ public class DBFFieldProcessor extends AbstractProcessor {
 					out.println(" catch(java.time.format.DateTimeParseException e) { return null; }");
 					out.println(" }");
 					out.println();
-					out.println(" /** " + fieldName + " (" + fieldType + ") */");
+					out.println(" /** " + a.name() + " (" + fieldType + ") */");
 					out.println(" public void set" + methodSubname(fieldName)
 							+ "(java.time.LocalDate value) throws org.xBaseJ.xBaseJException {");
 					out.println("  if (this." + fieldName + "==null) return;");
@@ -240,28 +240,28 @@ public class DBFFieldProcessor extends AbstractProcessor {
 							+ ".put(value.format(java.time.format.DateTimeFormatter.BASIC_ISO_DATE));}");
 					out.println(" }");
 				} else if (fieldType.endsWith("NumField") && a.dec() == 0 && a.size() < 10) {
-					out.println(" /** " + fieldName + " (int " + fieldType + ") */");
+					out.println(" /** " + a.name() + " (int " + fieldType + ") */");
 					out.println(" public int get" + methodSubname(fieldName) + "() {");
 					out.println("  if (this." + fieldName + "==null) return 0;");
 					out.println("  try { return java.lang.Integer.parseInt(this." + fieldName + ".get().trim()); }");
 					out.println(" catch(java.lang.NumberFormatException e) { return 0; }");
 					out.println(" }");
 					out.println();
-					out.println(" /** " + fieldName + " (int " + fieldType + ") */");
+					out.println(" /** " + a.name() + " (int " + fieldType + ") */");
 					out.println(" public void set" + methodSubname(fieldName)
 							+ "(int value) throws org.xBaseJ.xBaseJException {");
 					out.println("  if (this." + fieldName + "==null) return;");
 					out.println("  this." + fieldName + ".put(java.lang.Integer.toString(value));");
 					out.println(" }");
 				} else if (fieldType.endsWith("NumField") && a.dec() == 0 && a.size() < 19) {
-					out.println(" /** " + fieldName + " (long " + fieldType + ") */");
+					out.println(" /** " + a.name() + " (long " + fieldType + ") */");
 					out.println(" public long get" + methodSubname(fieldName) + "() {");
 					out.println("  if (this." + fieldName + "==null) return 0;");
 					out.println("  try { return java.lang.Long.parseLong(this." + fieldName + ".get().trim()); }");
 					out.println(" catch(java.lang.NumberFormatException e) { return 0; }");
 					out.println(" }");
 					out.println();
-					out.println(" /** " + fieldName + " (long " + fieldType + ") */");
+					out.println(" /** " + a.name() + " (long " + fieldType + ") */");
 					out.println(" public void set" + methodSubname(fieldName)
 							+ "(long value) throws org.xBaseJ.xBaseJException {");
 					out.println("  if (this." + fieldName + "==null) return;");
@@ -274,7 +274,7 @@ public class DBFFieldProcessor extends AbstractProcessor {
 								element);
 						return;
 					}
-					out.println(" /** " + fieldName + " (" + fieldType +" ["+a.size()+"])");
+					out.println(" /** " + a.name() + " (" + fieldType +" ["+a.size()+"])");
 					out.println(" rtrim=" + a.rtrim() + "  ltrim=" + a.ltrim()+" */");
 					out.println(" public String get" + methodSubname(fieldName) + "() {");
 					out.println("  if (this." + fieldName + "==null) return \"\";");
@@ -289,7 +289,7 @@ public class DBFFieldProcessor extends AbstractProcessor {
 					}
 					out.println(" }");
 					out.println();
-					out.println(" /** " + fieldName + " (" + fieldType +" ["+a.size()+"])");
+					out.println(" /** " + a.name() + " (" + fieldType +" ["+a.size()+"])");
 					out.println(" truncate=" + a.truncate()+" */");
 					out.println(" public void set" + methodSubname(fieldName)
 							+ "(String value) throws org.xBaseJ.xBaseJException {");
@@ -307,13 +307,13 @@ public class DBFFieldProcessor extends AbstractProcessor {
 					out.println("  this." + fieldName + ".put(value);");
 					out.println(" }");
 				} else {
-					out.println(" /** " + fieldName + " (" + fieldType +" ["+a.size()+":"+a.dec()+"]) */");
+					out.println(" /** " + a.name() + " (" + fieldType +" ["+a.size()+":"+a.dec()+"]) */");
 					out.println(" public String get" + methodSubname(fieldName) + "() {");
 					out.println("  if (this." + fieldName + "==null) return \"\";");
 					out.println("  return this." + fieldName + ".get();");
 					out.println(" }");
 					out.println();
-					out.println(" /** " + fieldType + " */");
+					out.println(" /** " + a.name() + " (" + fieldType +" ["+a.size()+":"+a.dec()+"]) */");
 					out.println(" public void set" + methodSubname(fieldName)
 							+ "(String value) throws org.xBaseJ.xBaseJException {");
 					out.println("  if (this." + fieldName + "==null) return;");
@@ -493,9 +493,17 @@ public class DBFFieldProcessor extends AbstractProcessor {
 		String newFieldName = fieldName;
 		while (newFieldName.contains("_") && newFieldName.length()>=2) {
 			int idx = newFieldName.indexOf("_");
-			String tmp1 = newFieldName.substring(idx+1, idx+2);
-			String tmp2 = newFieldName.substring(idx+2).toUpperCase();
-			newFieldName = newFieldName.substring(0,  idx) + tmp2 + tmp1;
+			if (idx==0) {
+				String prefix = "";						
+				String capital = newFieldName.substring(1, 2).toUpperCase();
+				String remaining = newFieldName.substring(2);
+				newFieldName = prefix + capital + remaining;
+			} else {
+				String prefix = newFieldName.substring(0,  idx);
+				String capital = newFieldName.substring(idx+1, idx+2).toUpperCase();
+				String remaining = newFieldName.substring(idx+2);
+				newFieldName = prefix + capital + remaining;
+			}
 		}
 		return newFieldName.substring(0, 1).toUpperCase() + newFieldName.substring(1);
 	}
