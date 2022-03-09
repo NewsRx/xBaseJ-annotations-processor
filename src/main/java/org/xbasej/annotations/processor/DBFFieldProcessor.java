@@ -274,7 +274,7 @@ public class DBFFieldProcessor extends AbstractProcessor {
 								element);
 						return;
 					}
-					out.println(" /** " + fieldName + " (" + fieldType +" ["+a.size()+"]) ");
+					out.println(" /** " + fieldName + " (" + fieldType +" ["+a.size()+"])");
 					out.println(" rtrim=" + a.rtrim() + "  ltrim=" + a.ltrim()+" */");
 					out.println(" public String get" + methodSubname(fieldName) + "() {");
 					out.println("  if (this." + fieldName + "==null) return \"\";");
@@ -289,7 +289,7 @@ public class DBFFieldProcessor extends AbstractProcessor {
 					}
 					out.println(" }");
 					out.println();
-					out.println(" /** " + fieldName + " (" + fieldType +" ["+a.size()+"]) ");
+					out.println(" /** " + fieldName + " (" + fieldType +" ["+a.size()+"])");
 					out.println(" truncate=" + a.truncate()+" */");
 					out.println(" public void set" + methodSubname(fieldName)
 							+ "(String value) throws org.xBaseJ.xBaseJException {");
@@ -307,7 +307,7 @@ public class DBFFieldProcessor extends AbstractProcessor {
 					out.println("  this." + fieldName + ".put(value);");
 					out.println(" }");
 				} else {
-					out.println(" /** " + fieldName + " (" + fieldType +" ["+a.size()+":"+a.dec()+"]) ");
+					out.println(" /** " + fieldName + " (" + fieldType +" ["+a.size()+":"+a.dec()+"]) */");
 					out.println(" public String get" + methodSubname(fieldName) + "() {");
 					out.println("  if (this." + fieldName + "==null) return \"\";");
 					out.println("  return this." + fieldName + ".get();");
