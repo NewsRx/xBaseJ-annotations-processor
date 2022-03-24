@@ -1,8 +1,6 @@
 plugins {
   id 'java'
-  id 'war'
   id 'eclipse-wtp'
-  id 'org.gretty'
   id "com.diffplug.eclipse.apt"
 }
 
@@ -19,14 +17,14 @@ java.toolchain.languageVersion = JavaLanguageVersion.of(11)
 java.toolchain.vendor = JvmVendorSpec.ADOPTOPENJDK
 
 repositories {
-		jcenter()
+		google()
 		mavenCentral()
 		maven { url 'https://jitpack.io' }
 }
 
 dependencies {
-	implementation 'com.github.NewsRxTech:xBaseJ:20201027.03'
-	implementation 'com.github.NewsRxTech:xBaseJ-annotations:20201118.01' 
+	compileOnly project(':xBaseJ')
+	implementation project('xBaseJ-annotations')
     implementation 'com.google.auto.service:auto-service:1.0-rc7'
     annotationProcessor 'com.google.auto.service:auto-service:1.0-rc7'
 }
