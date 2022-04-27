@@ -268,8 +268,44 @@ public class DBFFieldProcessor extends AbstractProcessor {
 					out.println("  if (this." + fieldName + "==null) return;");
 					out.println("  this." + fieldName + ".put(java.lang.Long.toString(value));");
 					out.println(" }");
-					// "".stripTrailing()
-				} else if (fieldType.endsWith("CharField")) {
+					out.println();
+					out.println(" /** " + fieldType + " */");
+					out.println(" public void set" + methodSubname(fieldName)
+							+ "(int value) throws org.xBaseJ.xBaseJException {");
+					out.println("  if (this." + fieldName + "==null) return;");
+					out.println("  this." + fieldName + ".put(java.lang.Integer.toString(value));");
+					out.println(" }");
+				}
+				else if (fieldType.endsWith("NumField") && a.dec() == 0 && a.size() >= 19) {
+					out.println(" /** " + fieldType + " */");
+					out.println(" public java.math.BigInteger get" + methodSubname(fieldName) + "() {");
+					out.println("  if (this." + fieldName + "==null) return java.math.BigInteger.ZERO;");
+					out.println("  try { return new java.math.BigInteger(this." + fieldName + ".get().trim()); }");
+					out.println(" catch(java.lang.NumberFormatException e) { return java.math.BigInteger.ZERO; }");
+					out.println(" }");
+					out.println();
+					out.println(" /** " + fieldType + " */");
+					out.println(" public void set" + methodSubname(fieldName)
+							+ "(java.math.BigInteger value) throws org.xBaseJ.xBaseJException {");
+					out.println("  if (this." + fieldName + "==null) return;");
+					out.println("  this." + fieldName + ".put(value.toString());");
+					out.println(" }");
+					out.println();
+					out.println(" /** " + fieldType + " */");
+					out.println(" public void set" + methodSubname(fieldName)
+							+ "(long value) throws org.xBaseJ.xBaseJException {");
+					out.println("  if (this." + fieldName + "==null) return;");
+					out.println("  this." + fieldName + ".put(java.lang.Long.toString(value));");
+					out.println(" }");
+					out.println();
+					out.println(" /** " + fieldType + " */");
+					out.println(" public void set" + methodSubname(fieldName)
+							+ "(int value) throws org.xBaseJ.xBaseJException {");
+					out.println("  if (this." + fieldName + "==null) return;");
+					out.println("  this." + fieldName + ".put(java.lang.Integer.toString(value));");
+					out.println(" }");
+				}
+				else if (fieldType.endsWith("CharField")) {
 					out.println(" /** " + fieldType + " <br>");
 					out.println(" rtrim=" + a.rtrim() + ", ltrim=" + a.ltrim()+" */");
 					out.println(" public String get" + methodSubname(fieldName) + "() {");
