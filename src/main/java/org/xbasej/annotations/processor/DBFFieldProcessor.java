@@ -384,7 +384,7 @@ public class DBFFieldProcessor extends AbstractProcessor {
 					out.println("  set" + methodSubname(fieldName) + "(null);");
 				} else if (fieldType.endsWith("DateField")) {
 					out.println("  set" + methodSubname(fieldName) + "(null);");
-				} else if (fieldType.endsWith("NumField") && a.dec() == 0 && a.size() < 19) {
+				} else if (fieldType.endsWith("NumField") && a.dec() == 0) {
 					out.println("  set" + methodSubname(fieldName) + "(0);");
 				} else {
 					out.println("  set" + methodSubname(fieldName) + "(\"\");");
