@@ -12,3 +12,5 @@ pluginManagement {
 
 rootProject.name = 'xBaseJ-annotations-processor'
 
+include ":xBaseJ-annotations"
+include ":xBaseJ"
